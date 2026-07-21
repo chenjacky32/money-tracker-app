@@ -1,2 +1,24 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/forms";
+
+@theme {
+  --color-primary: #015C4B;
+  --color-secondary: #10B981;
+  --color-danger: #DC2626;
+  --color-info: #7DD3FC;
+  --color-background: #F8FAFC;
+  --color-muted: #F2F4F3;
+
+  /* Semantic gray colors */
+  --color-gray-muted: #9CA3AF; /* gray-400 */
+  --color-gray-light: #6B7280; /* gray-500 */
+  --color-gray-medium: #4B5563; /* gray-600 */
+  --color-gray-dark: #374151; /* gray-700 */
+  --color-gray-darker: #1F2937; /* gray-800 */
+  --color-gray-deep: #111827; /* gray-900 */
+
+  /* Specific design colors */
+  --color-primary-dark: #065F46;
+  --color-danger-light: #FFE4E6;
+  --color-toggle-bg: #E9EBEA;
+}
