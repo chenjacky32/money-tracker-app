@@ -1,10 +1,14 @@
 @props(['disabled' => false, 'icon' => null])
 
 <div class="relative w-full">
-    @if($icon)
+    @if ($icon)
         <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
             {{ $icon }}
         </div>
     @endif
-    <input {{ $disabled ? 'disabled' : '' }} {!! $attributes->merge(['class' => 'w-full rounded-2xl border-gray-300 px-4 py-3 text-sm shadow-sm focus:border-primary focus:ring focus:ring-primary/20 bg-white placeholder-gray-400 ' . ($icon ? 'pl-11' : '')]) !!}>
+    <input {{ $disabled ? 'disabled' : '' }} {!! $attributes->merge([
+        'class' =>
+            'w-full rounded-2xl border-gray-300 px-4 py-3 text-sm shadow-sm focus:border-primary focus:ring focus:ring-primary/20 bg-white placeholder-gray-400 ' .
+            ($icon ? 'pl-11' : ''),
+    ]) !!}>
 </div>
