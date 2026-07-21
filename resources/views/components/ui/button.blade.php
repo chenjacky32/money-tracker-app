@@ -13,7 +13,7 @@
     } elseif ($variant === 'danger') {
         $classes .= ' bg-danger text-white hover:bg-danger/90 focus:ring-danger';
     } elseif ($variant === 'outline') {
-        $classes .= ' bg-transparent border-2 border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-gray-300';
+        $classes .= ' bg-transparent border-2 border-gray-300 text-gray-dark hover:bg-gray-50 focus:ring-gray-300';
     }
 @endphp
 

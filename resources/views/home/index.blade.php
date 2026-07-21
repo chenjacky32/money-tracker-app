@@ -34,6 +34,7 @@
         ];
     @endphp
 
+
     <div class="px-5 pt-6 pb-2">
         <x-ui.month-selector />
 

@@ -1,0 +1,69 @@
+Buatkan saya planning dalam file "planning-add-javascript.md" yang berisi perbaikan untuk sisi UI
+yang akan di implementasikan oleh junior programmer atau ai model yang lebih murah:
+
+1.  Menambahkan interaktivitas javascript dengan Alphine.js pada view:
+      bagian  /resource/view/transactions/index
+               - saat toggle PREVIOUS dan NEXT di klik akan mengubah value bulan dan tahun (Format MM/YYYY), 
+                  data yang sudah diubah akan di save dalam state SelectedMonthAndYear Alphine.js. value secara default mengambil 
+                  Bulan berjalan saat ini.
+               - saat icon calendar di klik akan memunculkan modals berupa monthpicker berupa bulan dan tahun.
+                  untuk monthpicker diperbolehkan memakai libray https://devdojo.com/pines/docs/how-to-use (Pines UI). saat user memilih bulan
+                  dan tahun pada monthpicker, maka state SelectedMonthAndYear akan berubah menjadi nilai 
+                  bulan dan tahun yang dipilih.
+               
+      bagian   /resource/view/transactions/create
+               - Tabs PENGELUARAN dan PEMASUKKAN saat di klik salah satu, ubah warna background dan font warna teks sesuai 
+                 warna desain, dan simpan pilihan tabs dalam state SelectedTransactionType Alphine.js. untuk TABS diperbolehkan refactor dengan
+                  library memakai https://devdojo.com/pines/docs/how-to-use (Pines UI)
+               - Saat Kategori seperti: Makanan & Minuman, Transportasi, dll di klik ubah warna background dan font warna teks sesuai 
+                 warna desain, dan simpan pilihan tabs dalam state SelectedCategory Alphine.js
+               - Saat jumlah di input dalam form, buatlah regex untuk menampilkan pemisah satuan ratusan,ribuan, jutaan, miliaran dengan titik, 
+               seperti: (1.00 , 1.000, 100.000, 1.000.000, 10.000.000 dan sebagainya) simpan inputan jumlah dalam state transactionsAmount.
+               - Saat inputan tanggal diklik, akan memunculkan modals datepicker.
+               - Tambahkan error text dibawah angka, jika nantinya user tidak menginputkan jumlah atau minus.
+               - Secara default, Tanggal akan mengambil datenow()
+               - Saat Button Simpan Transaksi di klik, button akan di disable dan Simpan Transaksi akan berubah menjadi Loading... selama 5 detik kemudian,
+                  akan mengembalikan ke route /history dan menampilkan swalfire success tambah data.
+      
+      bagian    /resource/view/transactions/edit
+               - Tabs PENGELUARAN dan PEMASUKKAN saat di klik salah satu, ubah warna background dan font warna teks sesuai 
+                 warna desain, dan simpan pilihan tabs dalam state SelectedTransactionType Alphine.js. untuk TABS diperbolehkan refactor dengan
+                  library memakai https://devdojo.com/pines/docs/how-to-use (Pines UI)
+               - Saat Kategori seperti: Makanan & Minuman, Transportasi, dll di klik ubah warna background dan font warna teks sesuai 
+                 warna desain, dan simpan pilihan tabs dalam state SelectedCategory Alphine.js
+               - Saat jumlah di input dalam form, buatlah regex untuk menampilkan pemisah satuan ratusan,ribuan, jutaan, miliaran dengan titik, 
+               seperti: (1.00 , 1.000, 100.000, 1.000.000, 10.000.000 dan sebagainya) simpan inputan jumlah dalam state transactionsAmount.
+               - Saat inputan tanggal diklik, akan memunculkan modals datepicker.
+               - Tambahkan error text dibawah angka, jika nantinya user tidak menginputkan jumlah atau minus.
+               - Secara default, Tanggal akan mengambil datenow()
+               - Saat Button Edit Transaksi di klik, button akan di disable dan Simpan Transaksi akan berubah menjadi Loading... selama 5 detik kemudian,
+                  akan mengembalikan ke route /history dan menampilkan swalfire success edit data.
+               - Bagian Hapus Button, jika di klik akan memunculkan modals confirmation. dengan library https://sweetalert2.github.io/
+               - jika yes akan mengembalikan ke route /history dan menampilkan swalfire success delete data.
+
+      bagian  /resource/view/home/index
+               - saat toggle PREVIOUS dan NEXT di klik akan mengubah value bulan dan tahun (Format MM/YYYY), 
+                  data yang sudah diubah akan di save dalam state SelectedMonthAndYear Alphine.js. value secara default mengambil 
+                  Bulan berjalan saat ini.
+               - saat icon calendar di klik akan memunculkan modals berupa monthpicker berupa bulan dan tahun.
+                  untuk monthpicker diperbolehkan memakai libray https://devdojo.com/pines/docs/how-to-use (Pines UI). saat user memilih bulan
+                  dan tahun pada monthpicker, maka state SelectedMonthAndYear akan berubah menjadi nilai 
+                  bulan dan tahun yang dipilih.
+
+DO:
+- Fokus pada perbaikan di UI, jangan memodifikasi/Menambahkan logika Controller, Model, DTOs, Action, Service.
+- UI harus mengikuti layout desain yang sudah ada.
+- Semua logika Javascript, disimpan dalam folder resource/js/app.js, di blade hanya memanggil function javascript.
+
+DONT'S:
+- Dilarang memakai fetch atau axios.
+- Dilarang memakai CDN.
+- Dilarang memakai JQUERY
+- Dilarang memakai Bootstrap JS
+- Dilarang memakai Tailwind JS
+- Dilarang memakai Jquery UI
+- Dilarang memakai Jquery UI CSS
+- Dilarang memakai Jquery UI
+- Dilarang memakai Jquery UI CSS
+- Menambahkan Fitur diluar dari planning.
+

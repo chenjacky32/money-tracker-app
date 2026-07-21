@@ -36,7 +36,7 @@
         ];
     @endphp
 
-    <div class="px-6 py-5 bg-background sticky top-0 z-40">
+    <div class="px-6 py-5 bg-background sticky top-0 z-20">
         <h2 class="text-2xl font-bold text-gray-deep mb-6">Laporan</h2>
 
         <x-ui.month-selector />
