@@ -1,4 +1,21 @@
 <x-app-layout>
+    @php
+        $incomes = [
+            ['kategori' => 'Gaji & Bonus', 'nominal' => '12.000k', 'percent' => 95],
+            ['kategori' => 'Investasi', 'nominal' => '500k', 'percent' => 15],
+        ];
+        $expenses = [
+            ['kategori' => 'Makanan & Minuman', 'nominal' => '3.500k', 'percent' => 75],
+            ['kategori' => 'Transportasi', 'nominal' => '1.200k', 'percent' => 45],
+            ['kategori' => 'Belanja', 'nominal' => '800k', 'percent' => 30],
+        ];
+        $latestTransactions = [
+            ['nama' => 'Makan Siang Klien', 'kategori' => 'Makanan & Minuman', 'nominal' => 250000, 'tipe' => 'pengeluaran', 'jam' => 'Hari ini'],
+            ['nama' => 'Bensin Bulanan', 'kategori' => 'Transportasi', 'nominal' => 400000, 'tipe' => 'pengeluaran', 'jam' => 'Kemarin'],
+            ['nama' => 'Gaji November', 'kategori' => 'Pendapatan', 'nominal' => 12500000, 'tipe' => 'pemasukan', 'jam' => '25 Nov'],
+        ];
+    @endphp
+
     <div class="px-5 pt-6 pb-2">
         <x-ui.month-selector />
 
@@ -44,24 +61,17 @@
             </div>
             
             <div class="space-y-4">
+                @foreach($incomes as $inc)
                 <div>
                     <div class="flex justify-between items-end mb-1.5">
-                        <span class="text-[13px] text-gray-600">Gaji & Bonus</span>
-                        <span class="text-[13px] font-bold text-gray-900">Rp 12.000k</span>
+                        <span class="text-[13px] text-gray-600">{{ $inc['kategori'] }}</span>
+                        <span class="text-[13px] font-bold text-gray-900">Rp {{ $inc['nominal'] }}</span>
                     </div>
                     <div class="w-full bg-gray-200 rounded-full h-2">
-                        <div class="bg-secondary h-2 rounded-full" style="width: 95%"></div>
+                        <div class="bg-secondary h-2 rounded-full" style="width: {{ $inc['percent'] }}%"></div>
                     </div>
                 </div>
-                <div>
-                    <div class="flex justify-between items-end mb-1.5">
-                        <span class="text-[13px] text-gray-600">Investasi</span>
-                        <span class="text-[13px] font-bold text-gray-900">Rp 500k</span>
-                    </div>
-                    <div class="w-full bg-gray-200 rounded-full h-2">
-                        <div class="bg-secondary h-2 rounded-full" style="width: 15%"></div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
 
@@ -73,33 +83,17 @@
             </div>
             
             <div class="space-y-4">
+                @foreach($expenses as $exp)
                 <div>
                     <div class="flex justify-between items-end mb-1.5">
-                        <span class="text-[13px] text-gray-600">Makanan & Minuman</span>
-                        <span class="text-[13px] font-bold text-gray-900">Rp 3.500k</span>
+                        <span class="text-[13px] text-gray-600">{{ $exp['kategori'] }}</span>
+                        <span class="text-[13px] font-bold text-gray-900">Rp {{ $exp['nominal'] }}</span>
                     </div>
                     <div class="w-full bg-gray-200 rounded-full h-2">
-                        <div class="bg-danger h-2 rounded-full" style="width: 75%"></div>
+                        <div class="bg-danger h-2 rounded-full" style="width: {{ $exp['percent'] }}%"></div>
                     </div>
                 </div>
-                <div>
-                    <div class="flex justify-between items-end mb-1.5">
-                        <span class="text-[13px] text-gray-600">Transportasi</span>
-                        <span class="text-[13px] font-bold text-gray-900">Rp 1.200k</span>
-                    </div>
-                    <div class="w-full bg-gray-200 rounded-full h-2">
-                        <div class="bg-danger h-2 rounded-full" style="width: 45%"></div>
-                    </div>
-                </div>
-                <div>
-                    <div class="flex justify-between items-end mb-1.5">
-                        <span class="text-[13px] text-gray-600">Belanja</span>
-                        <span class="text-[13px] font-bold text-gray-900">Rp 800k</span>
-                    </div>
-                    <div class="w-full bg-gray-200 rounded-full h-2">
-                        <div class="bg-danger h-2 rounded-full" style="width: 30%"></div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
 
@@ -107,13 +101,19 @@
         <div class="mb-6">
             <div class="flex justify-between items-center mb-4 px-1">
                 <h3 class="font-bold text-gray-900 text-[17px]">Transaksi Terakhir</h3>
-                <a href="/history" class="text-[13px] text-info font-medium">Semua</a>
+                <a href="{{ route('history') }}" class="text-[13px] text-info font-medium">Semua</a>
             </div>
 
             <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-                <x-transaction.card nama="Makan Siang Klien" kategori="Makanan & Minuman" nominal="250000" tipe="pengeluaran" jam="Hari ini" />
-                <x-transaction.card nama="Bensin Bulanan" kategori="Transportasi" nominal="400000" tipe="pengeluaran" jam="Kemarin" />
-                <x-transaction.card nama="Gaji November" kategori="Pendapatan" nominal="12500000" tipe="pemasukan" jam="25 Nov" />
+                @foreach($latestTransactions as $trx)
+                    <x-transaction.card 
+                        :nama="$trx['nama']" 
+                        :kategori="$trx['kategori']" 
+                        :nominal="$trx['nominal']" 
+                        :tipe="$trx['tipe']" 
+                        :jam="$trx['jam']" 
+                    />
+                @endforeach
             </div>
         </div>
     </div>

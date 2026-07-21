@@ -25,24 +25,34 @@
                 </div>
             </div>
 
+            @php
+                $categories = [
+                    ['id' => 'food', 'label' => 'Makan', 'icon' => 'food', 'active' => true],
+                    ['id' => 'shopping', 'label' => 'Belanja', 'icon' => 'shopping', 'active' => false],
+                    ['id' => 'transport', 'label' => 'Transport', 'icon' => 'transport', 'active' => false],
+                    ['id' => 'bills', 'label' => 'Tagihan', 'icon' => 'bills', 'active' => false],
+                ];
+            @endphp
+
             <!-- Kategori Grid -->
             <div>
                 <label class="block text-[13px] font-bold text-gray-800 mb-4 tracking-wide">KATEGORI</label>
                 <div class="grid grid-cols-4 gap-3">
-                    <!-- Active Item -->
-                    <button type="button" class="flex flex-col items-center py-4 bg-secondary text-white rounded-[20px] shadow-sm transition border border-secondary">
-                        <svg class="w-8 h-8 mb-2" fill="currentColor" viewBox="0 0 24 24"><path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z"/></svg>
-                        <span class="text-[13px] font-medium">Makan</span>
-                    </button>
-                    
-                    <!-- Inactive Items (subset for example) -->
-                    <button type="button" class="flex flex-col items-center py-4 bg-white text-gray-500 rounded-[20px] border border-gray-200 hover:bg-gray-50 transition">
-                        <div class="w-8 h-8 mb-2 bg-[#F2F4F3] rounded-full flex items-center justify-center">
-                            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                        </div>
-                        <span class="text-[13px] font-medium text-gray-600">Belanja</span>
-                    </button>
-                    <!-- ... (other categories omitted for brevity in edit) -->
+                    @foreach($categories as $cat)
+                        @if($cat['active'])
+                            <button type="button" class="flex flex-col items-center py-4 bg-secondary text-white rounded-[20px] shadow-sm transition border border-secondary">
+                                <x-ui.icon name="{{ $cat['icon'] }}" class="w-8 h-8 mb-2" />
+                                <span class="text-[13px] font-medium">{{ $cat['label'] }}</span>
+                            </button>
+                        @else
+                            <button type="button" class="flex flex-col items-center py-4 bg-white text-gray-500 rounded-[20px] border border-gray-200 hover:bg-gray-50 transition">
+                                <div class="w-8 h-8 mb-2 bg-[#F2F4F3] rounded-full flex items-center justify-center">
+                                    <x-ui.icon name="{{ $cat['icon'] }}" class="w-4 h-4 text-gray-600" />
+                                </div>
+                                <span class="text-[13px] font-medium text-gray-600">{{ $cat['label'] }}</span>
+                            </button>
+                        @endif
+                    @endforeach
                 </div>
             </div>
 
