@@ -14,7 +14,7 @@
                 <x-ui.icon name="food" class="w-6 h-6" />
             @endif
         </div>
-        <div>
+        <div class="text-start">
             <h4 class="font-semibold text-gray-deep">{{ $nama }}</h4>
             <p class="text-sm text-gray-light mt-0.5">{{ $jam }} &bull; {{ $kategori }}</p>
         </div>
