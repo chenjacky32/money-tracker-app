@@ -59,7 +59,7 @@
                     </div>
                     <p class="text-xs font-bold text-gray-darker uppercase tracking-wide">Pemasukan</p>
                 </div>
-                <p class="font-bold text-primary text-sm tracking-tight">Rp 12.500.000</p>
+                <p class="font-bold text-primary text-sm tracking-tight">+ Rp 12.500.000</p>
             </div>
             <div class="flex-1 bg-white rounded-2xl p-4 shadow-sm border border-gray-200">
                 <div class="flex items-center gap-2 mb-3">
@@ -68,14 +68,14 @@
                     </div>
                     <p class="text-xs font-bold text-gray-darker uppercase tracking-wide">Pengeluaran</p>
                 </div>
-                <p class="font-bold text-danger text-sm tracking-tight">Rp 8.240.000</p>
+                <p class="font-bold text-danger text-sm tracking-tight">- Rp 8.240.000</p>
             </div>
         </div>
 
         <!-- Ringkasan Pemasukan -->
         <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-200 mb-5">
             <div class="flex justify-between items-end mb-4">
-                <h3 class="font-bold text-gray-deep leading-tight max-w-[200px]">Ringkasan Pemasukan<br>Berdasarkan
+                <h3 class="font-bold text-gray-deep leading-tight max-w-[200px]">Pemasukan<br>Berdasarkan
                     Kategori</h3>
                 <a href="#" class="text-xs text-info font-medium text-right leading-tight">Lihat<br>Semua</a>
             </div>
@@ -98,7 +98,7 @@
         <!-- Ringkasan Pengeluaran -->
         <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-200 mb-6">
             <div class="flex justify-between items-end mb-4">
-                <h3 class="font-bold text-gray-deep leading-tight max-w-[200px]">Ringkasan Pengeluaran<br>Berdasarkan
+                <h3 class="font-bold text-gray-deep leading-tight max-w-[200px]">Pengeluaran<br>Berdasarkan
                     Kategori</h3>
                 <a href="#" class="text-xs text-info font-medium text-right leading-tight">Lihat<br>Semua</a>
             </div>

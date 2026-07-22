@@ -57,7 +57,7 @@
                         <button type="button" @click="SelectedCategory = '{{ $cat['id'] }}'"
                             :class="SelectedCategory === '{{ $cat['id'] }}' ? 'bg-secondary text-white border-secondary' :
                                 'bg-white text-gray-light border-gray-200 hover:bg-gray-50'"
-                            class="flex flex-col items-center py-4 rounded-[20px] shadow-sm transition border">
+                            class="cursor-pointer flex flex-col items-center py-4 rounded-[20px] shadow-sm transition border">
 
                             <div x-show="SelectedCategory === '{{ $cat['id'] }}'">
                                 <x-ui.icon name="{{ $cat['icon'] }}" class="w-8 h-8 mb-2" />
@@ -151,9 +151,16 @@
                 </div>
                 <div class="w-full">
                     <p class="text-xs font-bold text-gray-darker tracking-wide mb-0.5">CATATAN</p>
-                    <input type="text"
-                        class="w-full border-none p-0 text-base focus:ring-0 bg-transparent placeholder-gray-light"
-                        placeholder="Tambahkan deskripsi opsional...">
+                    <div class="w-full max-w-xs mx-auto">
+                        <textarea x-data="{
+                            resize() {
+                                $el.style.height = '0px';
+                                $el.style.height = $el.scrollHeight + 'px'
+                            }
+                        }" x-init="resize()" @input="resize()" type="text"
+                            placeholder="Tambahkan deskripsi opsional..."
+                            class="flex w-full h-auto min-h-[80px] px-3 py-2 text-sm bg-transparent border rounded-md border-neutral-300 ring-offset-background placeholder-gray-light focus:border-neutral-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neutral-400 disabled:cursor-not-allowed disabled:opacity-50"></textarea>
+                    </div>
                 </div>
             </div>
 

@@ -20,7 +20,7 @@
 
         <!-- Menu List -->
         <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden mb-6">
-            <a href="#"
+            <a href="{{ route('profile.edit') }}"
                 class="flex items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition">
                 <div class="flex items-center gap-4 text-primary">
                     <x-ui.icon name="settings" class="w-5 h-5" />
@@ -66,10 +66,14 @@
         </div>
 
         <!-- Logout Button -->
-        <button onclick="window.location.href='{{ route('home') }}'"
-            class="w-full bg-[#B91C1C] cursor-pointer text-white rounded-xl py-4 text-base font-bold shadow-sm hover:bg-red-800 transition flex items-center justify-center gap-2">
-            <x-ui.icon name="logout" class="w-5 h-5" />
-            Logout
-        </button>
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+
+            <button type="submit"
+                class="w-full bg-[#B91C1C] cursor-pointer text-white rounded-xl py-4 text-base font-bold shadow-sm hover:bg-red-800 transition flex items-center justify-center gap-2">
+                <x-ui.icon name="logout" class="w-5 h-5" />
+                Logout
+            </button>
+        </form>
     </div>
 </x-app-layout>
