@@ -104,24 +104,29 @@ document.addEventListener('alpine:init', () => {
             e.target.value = this.formattedAmount; // Paksa input di DOM sesuai format
         },
 
-        submitForm(actionType) {
+        submitForm(e) {
             if (!this.transactionsAmount || this.transactionsAmount <= 0) {
+                e.preventDefault();
                 this.amountError = true;
-                return;
-            }
-
-            this.isSubmitting = true;
-            setTimeout(() => {
-                this.isSubmitting = false;
                 Swal.fire({
-                    title: 'Success!',
-                    text: actionType === 'create' ? 'Transaksi berhasil ditambahkan.' : 'Transaksi berhasil diubah.',
-                    icon: 'success',
+                    title: 'Kesalahan!',
+                    text: 'Jumlah transaksi harus diisi dan tidak boleh kosong atau minus.',
+                    icon: 'error',
                     confirmButtonColor: '#015C4B'
-                }).then(() => {
-                    window.location.href = '/history';
                 });
-            }, 5000);
+                return false;
+            }
+            if (!this.SelectedCategory) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Kesalahan!',
+                    text: 'Silakan pilih kategori terlebih dahulu.',
+                    icon: 'error',
+                    confirmButtonColor: '#015C4B'
+                });
+                return false;
+            }
+            return true;
         },
 
         deleteTransaction() {
@@ -142,7 +147,7 @@ document.addEventListener('alpine:init', () => {
                         icon: 'success',
                         confirmButtonColor: '#015C4B'
                     }).then(() => {
-                        window.location.href = '/history';
+                        window.location.href = '/transactions';
                     });
                 }
             });

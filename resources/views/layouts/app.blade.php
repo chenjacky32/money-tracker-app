@@ -25,6 +25,19 @@
 
         <x-layout.bottom-nav />
     </div>
+
+    @if (session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                window.Swal.fire({
+                    title: 'Berhasil!',
+                    text: "{{ session('success') }}",
+                    icon: 'success',
+                    confirmButtonColor: '#015C4B'
+                });
+            });
+        </script>
+    @endif
 </body>
 
 </html>

@@ -1,4 +1,19 @@
 <div x-data="monthSelector"
+    x-init="
+        const parts = '{{ $selectedMonthYear ?? now()->format('m/Y') }}'.split('/');
+        if (parts.length === 2) {
+            datePickerMonth = parseInt(parts[0]) - 1;
+            datePickerYear = parseInt(parts[1]);
+            updateSelectedValue();
+        }
+        $watch('SelectedMonthAndYear', (val) => {
+            const url = new URL(window.location.href);
+            if (url.searchParams.get('month_year') !== val) {
+                url.searchParams.set('month_year', val);
+                window.location.href = url.pathname + url.search;
+            }
+        });
+    "
     class="flex items-center justify-between bg-white rounded-2xl border border-gray-200 p-4 shadow-sm mb-6 relative">
     <button @click="prevMonth()" type="button"
         class="cursor-pointer w-8 h-8 flex items-center justify-center text-primary hover:bg-gray-50 rounded-full transition">

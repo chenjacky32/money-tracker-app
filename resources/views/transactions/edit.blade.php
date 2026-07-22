@@ -1,7 +1,7 @@
 <x-guest-layout>
     <!-- Header -->
     <div class="px-6 py-5 bg-background flex items-center gap-6 sticky top-0 z-40">
-        <a href="{{ route('history') }}"
+        <a href="{{ route('transactions.index') }}"
             class="w-10 h-10 flex items-center justify-center rounded-full bg-white border border-gray-200 text-gray-darker hover:bg-gray-50 shadow-sm transition">
             <x-ui.icon name="x-mark" class="w-5 h-5" />
         </a>
@@ -9,7 +9,45 @@
     </div>
 
     <div class="px-6 pb-8 bg-background">
-        <form class="space-y-6" x-data="transactionForm">
+        <form action="{{ route('transactions.update', $transaction->id) }}" method="POST" class="space-y-6"
+            x-data="transactionForm" x-init="SelectedTransactionType = '{{ $transaction->transactionType->name }}';
+            
+            @if ($transaction->category && $transaction->category->user_id !== null) @php
+                        $lainnya = $categories->where('transaction_type_id', $transaction->transaction_type_id)->filter(fn($c) => strtolower($c->name) === 'lainnya')->first();
+                    @endphp
+                    SelectedCategory = '{{ $lainnya->id ?? '' }}';
+                @else
+                    SelectedCategory = '{{ $transaction->category_id }}'; @endif
+            
+            transactionsAmount = {{ (int) $transaction->amount }};
+            formattedAmount = '{{ number_format($transaction->amount, 0, ',', '.') }}';
+            datePickerValue = '{{ $transaction->date->locale('id')->translatedFormat('d M Y') }}';
+            
+            const txDate = new Date('{{ $transaction->date->format('Y-m-d') }}');
+            datePickerMonth = txDate.getMonth();
+            datePickerYear = txDate.getFullYear();
+            datePickerCalculateDays();
+            
+            SelectedCategoryName = '';
+            setTimeout(() => {
+                const el = document.querySelector('[data-category-id=\'' + SelectedCategory + '\']');
+                SelectedCategoryName = el ? el.getAttribute('data-category-name') : '';
+            }, 100);
+            
+            $watch('SelectedCategory', id => {
+                const el = document.querySelector('[data-category-id=\'' + id + '\']');
+                SelectedCategoryName = el ? el.getAttribute('data-category-name') : '';
+            });
+            $watch('SelectedTransactionType', value => {
+                SelectedCategory = '';
+                SelectedCategoryName = '';
+            });" @submit="submitForm($event)">
+            @csrf
+            @method('PUT')
+            <input type="hidden" name="transaction_type" :value="SelectedTransactionType">
+            <input type="hidden" name="category_id" :value="SelectedCategory">
+            <input type="hidden" name="amount" :value="transactionsAmount">
+            <input type="hidden" name="date" :value="datePickerValue">
 
             <!-- Tipe Transaksi Toggle -->
             <div class="flex bg-toggle-bg border border-gray-200 p-1.5 rounded-xl mb-8">
@@ -28,8 +66,7 @@
                 <label class="block text-sm font-bold text-gray-darker mb-2 tracking-wide">JUMLAH</label>
                 <div class="flex items-center justify-center gap-2 border-b border-gray-300 pb-2 mx-8">
                     <span class="text-xl font-medium text-gray-medium">Rp</span>
-                    <input type="text" @input="formatAmount($event)" :value="formattedAmount" x-init="transactionsAmount = 50000;
-                    formattedAmount = '50.000'"
+                    <input type="text" @input="formatAmount($event)" :value="formattedAmount"
                         class="w-full text-center bg-transparent border-none text-4xl font-bold text-primary p-0 focus:ring-0"
                         placeholder="0">
                 </div>
@@ -37,47 +74,41 @@
                     minus</p>
             </div>
 
-            @php
-                $categories = [
-                    ['id' => '1', 'label' => 'Makan', 'icon' => 'food'],
-                    ['id' => '2', 'label' => 'Belanja', 'icon' => 'shopping'],
-                    ['id' => '3', 'label' => 'Transport', 'icon' => 'transport'],
-                    ['id' => '4', 'label' => 'Tagihan', 'icon' => 'bills'],
-                    ['id' => '5', 'label' => 'Hiburan', 'icon' => 'entertainment'],
-                    ['id' => '6', 'label' => 'Sehat', 'icon' => 'health'],
-                    ['id' => '7', 'label' => 'Edukasi', 'icon' => 'education'],
-                    ['id' => '8', 'label' => 'Lainnya', 'icon' => 'other'],
-                ];
-            @endphp
+
 
             <!-- Kategori Grid -->
-            <div x-init="SelectedCategory = '1'">
+            <div>
                 <label class="block text-sm font-bold text-gray-darker mb-4 tracking-wide">KATEGORI</label>
                 <div class="grid grid-cols-4 gap-3">
                     @foreach ($categories as $cat)
-                        <button type="button" @click="SelectedCategory = '{{ $cat['id'] }}'"
-                            :class="SelectedCategory === '{{ $cat['id'] }}' ? 'bg-secondary text-white border-secondary' :
+                        <button type="button" x-show="SelectedTransactionType === '{{ $cat->transactionType->name }}'"
+                            @click="SelectedCategory = '{{ $cat->id }}'" data-category-id="{{ $cat->id }}"
+                            data-category-name="{{ strtolower($cat->name) }}"
+                            :class="SelectedCategory === '{{ $cat->id }}' ? 'bg-secondary text-white border-secondary' :
                                 'bg-white text-gray-light border-gray-200 hover:bg-gray-50'"
                             class="cursor-pointer flex flex-col items-center py-4 rounded-[20px] shadow-sm transition border">
 
-                            <div x-show="SelectedCategory === '{{ $cat['id'] }}'">
-                                <x-ui.icon name="{{ $cat['icon'] }}" class="w-8 h-8 mb-2" />
+                            <div x-show="SelectedCategory === '{{ $cat->id }}'">
+                                <x-ui.icon name="{{ $cat->icon ?? 'other' }}" class="w-8 h-8 mb-2" />
                             </div>
 
-                            <div x-show="SelectedCategory !== '{{ $cat['id'] }}'">
+                            <div x-show="SelectedCategory !== '{{ $cat->id }}'">
                                 <div class="w-8 h-8 mb-2 bg-muted rounded-full flex items-center justify-center">
-                                    <x-ui.icon name="{{ $cat['icon'] }}" class="w-4 h-4 text-gray-medium" />
+                                    <x-ui.icon name="{{ $cat->icon ?? 'other' }}" class="w-4 h-4 text-gray-medium" />
                                 </div>
                             </div>
 
                             <span class="text-sm font-medium"
-                                :class="SelectedCategory === '{{ $cat['id'] }}' ? '' : 'text-gray-medium'">{{ $cat['label'] }}</span>
+                                :class="SelectedCategory === '{{ $cat->id }}' ? '' : 'text-gray-medium'">{{ $cat->name }}</span>
                         </button>
                     @endforeach
                 </div>
 
                 <!-- Input Kategori Lainnya (hanya muncul saat kategori 'Lainnya' dipilih) -->
-                <div x-show="SelectedCategory === '8'" x-transition x-cloak
+                @php
+                    $isCustomCategory = $transaction->category && $transaction->category->user_id !== null;
+                @endphp
+                <div x-show="SelectedCategoryName === 'lainnya'" x-transition x-cloak
                     class="bg-white rounded-[20px] border border-gray-200 p-4 mt-4 shadow-sm flex items-center gap-4">
                     <div
                         class="w-10 h-10 bg-muted rounded-full flex items-center justify-center text-gray-medium shrink-0">
@@ -85,7 +116,8 @@
                     </div>
                     <div class="w-full">
                         <p class="text-xs font-bold text-gray-darker tracking-wide mb-0.5">NAMA KATEGORI LAINNYA</p>
-                        <input type="text"
+                        <input type="text" name="custom_category_name"
+                            value="{{ $isCustomCategory ? $transaction->category->name : '' }}"
                             class="w-full border-none p-0 text-base focus:ring-0 bg-transparent placeholder-gray-light"
                             placeholder="Masukkan nama kategori lainnya...">
                     </div>
@@ -148,19 +180,20 @@
 
             <!-- Catatan Input -->
             <div class="bg-white rounded-[20px] border border-gray-200 p-4 mt-4 shadow-sm flex items-center gap-4">
-                <div class="w-10 h-10 bg-muted rounded-full flex items-center justify-center text-gray-medium shrink-0">
+                <div
+                    class="w-10 h-10 bg-muted rounded-full flex items-center justify-center text-gray-medium shrink-0">
                     <x-ui.icon name="document-text" class="w-5 h-5" />
                 </div>
                 <div class="w-full">
                     <p class="text-xs font-bold text-gray-darker tracking-wide mb-0.5">CATATAN</p>
                     <div class="w-full max-w-xs mx-auto">
-                        <textarea x-data="{
+                        <textarea name="note" x-data="{
                             resize() {
                                 $el.style.height = '0px';
                                 $el.style.height = $el.scrollHeight + 'px'
                             }
                         }" x-init="resize()" @input="resize()" type="text"
-                            placeholder="Tambahkan deskripsi opsional..." value=""
+                            placeholder="Tambahkan deskripsi opsional..."
                             class="flex w-full h-auto min-h-[80px] px-3 py-2 text-sm 
                                     bg-transparent border rounded-md 
                                     border-neutral-300 ring-offset-background 
@@ -171,24 +204,43 @@
                                     focus:ring-offset-2 
                                     focus:ring-neutral-400 
                                     disabled:cursor-not-allowed 
-                                    disabled:opacity-50">Makan Siang Klien
-                        </textarea>
+                                    disabled:opacity-50">{{ $transaction->note }}</textarea>
                     </div>
                 </div>
             </div>
 
             <div class="pt-8 pb-12 flex gap-4">
-                <button type="button" @click="deleteTransaction()"
+                <button type="button"
+                    @click="
+                        window.Swal.fire({
+                            title: 'Apakah Anda yakin?',
+                            text: 'Data yang dihapus tidak dapat dikembalikan!',
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#DC2626',
+                            cancelButtonColor: '#6B7280',
+                            confirmButtonText: 'Ya, hapus!',
+                            cancelButtonText: 'Batal'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                document.getElementById('delete-transaction-form').submit();
+                            }
+                        });
+                    "
                     class="cursor-pointer w-16 bg-white border border-gray-200 text-danger rounded-[20px] flex items-center justify-center shadow-sm hover:bg-gray-50 transition">
                     <x-ui.icon name="trash" class="w-6 h-6" />
                 </button>
-                <button type="button" @click="submitForm('edit')" :disabled="isSubmitting"
+                <button type="submit"
                     class="cursor-pointer flex-1 bg-primary text-white rounded-[20px] py-4 text-base font-bold shadow-md hover:bg-primary/90 transition flex items-center justify-center gap-2 disabled:opacity-75 disabled:cursor-wait">
-                    <x-ui.icon name="check" class="w-5 h-5" x-show="!isSubmitting" />
-                    <span x-text="isSubmitting ? 'Loading...' : 'Simpan Perubahan'"></span>
+                    <x-ui.icon name="check" class="w-5 h-5" />
+                    <span>Simpan Perubahan</span>
                 </button>
             </div>
-
+        </form>
+        <form id="delete-transaction-form" action="{{ route('transactions.destroy', $transaction->id) }}"
+            method="POST" class="hidden">
+            @csrf
+            @method('DELETE')
         </form>
     </div>
 </x-guest-layout>

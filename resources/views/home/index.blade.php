@@ -122,7 +122,7 @@
         <div class="mb-6">
             <div class="flex justify-between items-center mb-4 px-1">
                 <h3 class="font-bold text-gray-deep text-lg">Transaksi Terakhir</h3>
-                <a href="{{ route('history') }}" class="text-sm text-info font-medium">Semua</a>
+                <a href="{{ route('transactions.index') }}" class="text-sm text-info font-medium">Semua</a>
             </div>
 
             <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
