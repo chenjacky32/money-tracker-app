@@ -12,6 +12,19 @@
     <div class="max-w-md mx-auto min-h-screen relative bg-background shadow-xl">
         {{ $slot }}
     </div>
+
+    @if (session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                window.Swal.fire({
+                    title: 'Berhasil!',
+                    text: "{{ session('success') }}",
+                    icon: 'success',
+                    confirmButtonColor: '#015C4B'
+                });
+            });
+        </script>
+    @endif
 </body>
 
 </html>
