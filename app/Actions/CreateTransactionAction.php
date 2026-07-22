@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Actions\Transaction;
+namespace App\Actions;
 
-use App\DTOs\Transaction\CreateTransactionDTO;
+use App\DTOs\CreateTransactionDTO;
 use App\Models\Transaction;
 use App\Services\TransactionService;
 

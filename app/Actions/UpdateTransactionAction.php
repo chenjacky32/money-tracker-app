@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Actions\Transaction;
+namespace App\Actions;
 
-use App\DTOs\Transaction\UpdateTransactionDTO;
+use App\DTOs\UpdateTransactionDTO;
 use App\Services\TransactionService;
 
 class UpdateTransactionAction

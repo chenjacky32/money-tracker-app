@@ -1,8 +1,8 @@
 <?php
 
-namespace App\DTOs\Transaction;
+namespace App\DTOs;
 
-class TransactionFilterDTO
+class HomeFilterDTO
 {
     public function __construct(
         public readonly int $userId,
