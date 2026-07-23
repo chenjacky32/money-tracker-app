@@ -1,5 +1,5 @@
 <div
-    class="fixed bottom-0 w-full max-w-md bg-white border-t border-gray-100 flex justify-between items-center px-8 py-3 z-50 rounded-t-3xl shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+    class="fixed bottom-0 w-full max-w-md bg-background border-t border-gray-100 flex justify-between items-center px-8 py-3 z-50 rounded-t-3xl shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
     <a href="{{ route('home') }}"
         class="flex flex-col items-center {{ request()->routeIs('home') ? 'text-secondary' : 'text-gray-light hover:text-secondary' }}">
         @if (request()->routeIs('home'))

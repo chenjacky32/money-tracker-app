@@ -1,17 +1,17 @@
 @props(['nama', 'kategori', 'nominal', 'tipe', 'jam', 'icon'])
 
 <div
-    class="bg-white rounded-2xl p-4 flex items-center justify-between 
-            border-b border-gray-100 last:border-0 
+    class="bg-background rounded-2xl p-4 flex items-center justify-between 
+            border-b border-gray-muted last:border-0 
             hover:bg-gray-50 transition cursor-pointer">
     <div class="flex items-center gap-4">
         <div
             class="w-12 h-12 rounded-2xl flex items-center justify-center 
-                {{ $tipe === 'pemasukan' ? 'bg-secondary text-white' : 'bg-muted text-gray-dark' }}">
+                {{ $tipe === 'pemasukan' ? 'bg-secondary text-gray-deep' : 'bg-muted text-gray-dark' }}">
             <x-ui.icon :name="$icon ?? 'other'" class="w-6 h-6" />
         </div>
         <div class="text-start">
-            <h4 class="font-semibold text-gray-deep">{{ $nama }}</h4>
+            <h4 class="font-semibold text-secondary">{{ $nama }}</h4>
             <p class="text-sm text-gray-light mt-0.5">{{ $jam }} &bull; {{ $kategori }}</p>
         </div>
     </div>

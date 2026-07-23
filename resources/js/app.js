@@ -20,7 +20,7 @@ document.addEventListener('alpine:init', () => {
             this.datePickerMonth = currentDate.getMonth();
             this.datePickerYear = currentDate.getFullYear();
             this.updateSelectedValue();
-            
+
             this.$watch('SelectedMonthAndYear', (val) => {
                 const url = new URL(window.location.href);
                 let changed = false;
@@ -29,7 +29,7 @@ document.addEventListener('alpine:init', () => {
                     url.searchParams.set('month_year', val);
                     changed = true;
                 }
-                
+
                 if (url.searchParams.has('start_date')) {
                     url.searchParams.delete('start_date');
                     changed = true;
@@ -349,6 +349,7 @@ document.addEventListener('alpine:init', () => {
                 });
                 this.$watch('monthYear', (val) => {
                     this.triggerReload();
+                    this.updateChart();
                 });
             },
 
@@ -609,6 +610,33 @@ document.addEventListener('alpine:init', () => {
             }
         };
     });
+
+    // 5. Toggle Theme mode
+    Alpine.data('themeToggle', () => ({
+        isDark: false,
+
+        init() {
+            const storedTheme = localStorage.getItem('theme');
+            if (storedTheme === 'dark') {
+                this.isDark = true;
+                document.documentElement.classList.add('dark');
+            } else {
+                this.isDark = false;
+                document.documentElement.classList.remove('dark');
+            }
+        },
+
+        toggleTheme() {
+            this.isDark = !this.isDark;
+            if (this.isDark) {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+    }));
 });
 
 Alpine.start();

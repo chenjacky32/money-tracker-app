@@ -1,16 +1,16 @@
-<div class="flex items-center justify-between bg-white rounded-2xl border border-gray-200 p-4 shadow-sm mb-6 gap-4">
+<div class="flex items-center justify-between bg-background rounded-2xl border border-gray-200 p-4 shadow-sm mb-6 gap-4">
     <!-- Start Date Trigger -->
     <div class="relative flex-1">
-        <label class="block text-[10px] font-bold text-gray-medium uppercase tracking-wide mb-1">TANGGAL MULAI</label>
+        <label class="block text-[10px] font-bold text-gray-deep uppercase tracking-wide mb-1">TANGGAL MULAI</label>
         <button type="button" @click="startPickerOpen = !startPickerOpen; endPickerOpen = false"
-            class="w-full flex items-center justify-between bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-sm font-semibold text-gray-deep hover:bg-gray-100/70 transition cursor-pointer">
+            class="w-full flex items-center justify-between bg-background border border-gray-200 rounded-xl px-3 py-2 text-sm font-semibold text-gray-deep hover:bg-gray-muted/30 transition cursor-pointer">
             <span x-text="formatDisplayDate(startDate)"></span>
             <x-ui.icon name="calendar" class="w-4 h-4 text-primary" />
         </button>
 
         <!-- Start Datepicker Popover Modal -->
         <div x-show="startPickerOpen" @click.away="startPickerOpen = false" x-transition x-cloak
-            class="absolute left-0 top-full mt-2 w-64 bg-white border border-gray-200 rounded-xl shadow-lg p-4 z-50">
+            class="absolute left-0 top-full mt-2 w-64 bg-background border border-gray-200 rounded-xl shadow-lg p-4 z-50">
 
             <div class="flex justify-between items-center mb-4 pb-4 border-b border-gray-100">
                 <button @click.prevent="startPickerPreviousMonth()" type="button"
@@ -49,7 +49,7 @@
     </div>
 
     <!-- Separator Icon -->
-    <div class="text-gray-medium pt-5">
+    <div class="text-gray-muted pt-5">
         <x-ui.icon name="chevron-right-thick" class="w-4 h-4" />
     </div>
 
@@ -57,14 +57,14 @@
     <div class="relative flex-1">
         <label class="block text-[10px] font-bold text-gray-medium uppercase tracking-wide mb-1">TANGGAL SELESAI</label>
         <button type="button" @click="endPickerOpen = !endPickerOpen; startPickerOpen = false"
-            class="w-full flex items-center justify-between bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-sm font-semibold text-gray-deep hover:bg-gray-100/70 transition cursor-pointer">
+            class="w-full flex items-center justify-between bg-background border border-gray-200 rounded-xl px-3 py-2 text-sm font-semibold text-gray-deep hover:bg-gray-muted/30 transition cursor-pointer">
             <span x-text="formatDisplayDate(endDate)"></span>
             <x-ui.icon name="calendar" class="w-4 h-4 text-primary" />
         </button>
 
         <!-- End Datepicker Popover Modal -->
         <div x-show="endPickerOpen" @click.away="endPickerOpen = false" x-transition x-cloak
-            class="absolute right-0 top-full mt-2 w-64 bg-white border border-gray-200 rounded-xl shadow-lg p-4 z-50">
+            class="absolute right-0 top-full mt-2 w-64 bg-background border border-gray-200 rounded-xl shadow-lg p-4 z-50">
 
             <div class="flex justify-between items-center mb-4 pb-4 border-b border-gray-100">
                 <button @click.prevent="endPickerPreviousMonth()" type="button"

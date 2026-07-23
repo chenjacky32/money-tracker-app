@@ -1,6 +1,6 @@
 @props(['incomes', 'selectedMonthYear'])
 
-<div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-200 mb-5">
+<div class="bg-background rounded-2xl p-5 shadow-sm border border-gray-200 mb-5">
     <div class="flex justify-between items-end mb-4">
         <h3 class="font-bold text-gray-deep leading-tight max-w-[200px]">Pemasukan<br>Berdasarkan Kategori</h3>
         <a href="{{ route('reports', ['period_type' => 'bulanan', 'month_year' => $selectedMonthYear]) }}"

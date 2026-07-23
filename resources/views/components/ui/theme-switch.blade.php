@@ -1,14 +1,13 @@
-<div x-data="{ switchOn: false }" class="flex items-center justify-center space-x-2">
-    <input id="thisId" type="checkbox" name="switch" class="hidden" :checked="switchOn">
-
-    <label @click="$refs.switchButton.click(); $refs.switchButton.focus()" :id="$id('switch')"
-        :class="{ 'text-primary': switchOn, 'text-gray-muted': !switchOn }" class="text-sm select-none" x-cloak>
-        <span x-text="switchOn ? 'Gelap' : 'Terang'"></span></label>
-
-    <button x-ref="switchButton" type="button" @click="switchOn = ! switchOn"
-        :class="switchOn ? 'bg-primary' : 'bg-gray-100'"
-        class="relative inline-flex h-6 py-0.5 ml-4 focus:outline-none rounded-full w-10" x-cloak>
-        <span :class="switchOn ? 'translate-x-[18px]' : 'translate-x-0.5'"
-            class="w-5 h-5 duration-200 ease-in-out bg-white rounded-full shadow-md"></span>
+<div x-data="themeToggle" class="flex items-center justify-center">
+    <button type="button" 
+        @click="toggleTheme()"
+        class="relative inline-flex items-center justify-center p-2 rounded-full text-gray-light hover:text-primary hover:bg-gray-100 dark:hover:bg-gray-dark transition-colors duration-200 focus:outline-none cursor-pointer"
+        aria-label="Toggle Dark Mode">
+        
+        <!-- Sun icon for light mode (shows when dark mode is ON) -->
+        <x-ui.icon name="sun" class="w-5 h-5 text-amber-500" x-show="isDark" x-cloak />
+        
+        <!-- Moon icon for dark mode (shows when dark mode is OFF) -->
+        <x-ui.icon name="moon" class="w-5 h-5 text-gray-dark" x-show="!isDark" x-cloak />
     </button>
 </div>

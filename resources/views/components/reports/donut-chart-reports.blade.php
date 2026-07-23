@@ -1,5 +1,5 @@
 <!-- Donut Chart Area -->
-<div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-200 mb-8 flex justify-center relative">
+<div class="bg-background rounded-3xl p-6 shadow-sm border border-gray-deep mb-8 flex justify-center relative">
     <div class="relative w-48 h-48">
         <!-- ChartJS Canvas -->
         <canvas id="pieChart" class="w-full h-full"></canvas>

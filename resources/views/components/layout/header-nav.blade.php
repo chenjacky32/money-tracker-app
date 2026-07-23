@@ -9,8 +9,8 @@
         </div>
         <x-ui.theme-switch />
         <button @click="toggleNotification()"
-            class="w-10 h-10 bg-white border border-gray-200/60 rounded-full flex items-center justify-center text-primary shadow-sm hover:bg-gray-50 transition cursor-pointer">
-            <x-ui.icon name="bell" x-show="!isBellClicked" class="w-5 h-5" />
+            class="w-10 h-10 bg-background border border-gray-200/60 rounded-full flex items-center justify-center text-primary shadow-sm hover:bg-gray-50 transition cursor-pointer">
+            <x-ui.icon name="bell" x-show="!isBellClicked" class="w-5 h-5 bg-transparent" />
             <x-ui.icon name="silent-bell" x-show="isBellClicked" class="w-5 h-5" x-cloak />
         </button>
     </div>

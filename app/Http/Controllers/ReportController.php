@@ -14,8 +14,14 @@ class ReportController extends Controller
     {
         $periodType = $request->input('period_type') ?: 'bulanan';
         $selectedMonthYear = $request->input('month_year') ?: now()->format('m/Y');
-        $startDate = $request->input('start_date') ?: now()->startOfMonth()->toDateString();
-        $endDate = $request->input('end_date') ?: now()->endOfMonth()->toDateString();
+
+        if ($periodType === 'rentang_tanggal') {
+            $startDate = $request->input('start_date') ?: now()->startOfMonth()->toDateString();
+            $endDate = $request->input('end_date') ?: now()->endOfMonth()->toDateString();
+        } else {
+            $startDate = null;
+            $endDate = null;
+        }
 
         $filter = ReportFilterDTO::fromRequest(
             Auth::id(),

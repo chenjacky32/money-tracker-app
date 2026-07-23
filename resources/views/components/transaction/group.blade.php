@@ -5,7 +5,7 @@
         <h3 class="text-sm font-medium text-gray-dark">{{ $date }}</h3>
         <span class="text-sm font-medium text-gray-deep">{{ $totalFormatted }}</span>
     </div>
-    <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+    <div class="bg-background rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
         @foreach ($group as $item)
             <button type="button" class="w-full"
                 onclick="window.location.href='{{ route('transactions.edit', $item->id) }}'">

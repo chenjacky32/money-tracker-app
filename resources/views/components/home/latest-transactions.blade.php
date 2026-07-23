@@ -6,7 +6,7 @@
         <a href="{{ route('transactions.index') }}" class="text-sm text-info font-medium">Semua</a>
     </div>
 
-    <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+    <div class="bg-background rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
         @forelse ($latestTransactions as $trx)
             <a href="{{ route('transactions.edit', $trx['id']) }}">
                 <x-transaction.card :nama="$trx['nama']" :kategori="$trx['kategori']" :nominal="$trx['nominal']" :tipe="$trx['tipe']"
