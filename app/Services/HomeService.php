@@ -64,8 +64,10 @@ class HomeService
             }
 
             return [
+                'id' => $trx->id,
                 'nama' => $trx->note ?: $trx->category->name,
                 'kategori' => $trx->category->name,
+                'icon' => $trx->category->icon,
                 'nominal' => (float) $trx->amount,
                 'tipe' => $trx->transactionType->name,
                 'jam' => $jam,

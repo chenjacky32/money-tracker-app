@@ -3,134 +3,18 @@
         <x-ui.month-selector :selectedMonthYear="$selectedMonthYear" />
 
         <!-- Total Saldo -->
-        <div class="bg-info text-white rounded-2xl p-5 shadow-sm mb-5 relative overflow-hidden">
-            <div class="relative z-10">
-                <p class="text-xs font-bold tracking-wider mb-2 text-primary-dark opacity-90 uppercase">Total Saldo</p>
-                <h1 class="text-3xl font-bold text-primary-dark tracking-tight">Rp {{ number_format($summary['total'], 0, ',', '.') }}</h1>
-            </div>
-            <!-- Bank Icon in background -->
-            <div class="absolute right-4 top-4 text-primary-dark opacity-70">
-                <x-ui.icon name="bank" class="w-8 h-8" />
-            </div>
-        </div>
+        <x-home.total-balance :total="$summary['total']" label="Total Saldo" />
 
         <!-- Pemasukan & Pengeluaran -->
-        <div class="flex gap-4 mb-6">
-            <div class="flex-1 bg-white rounded-2xl p-4 shadow-sm border border-gray-200">
-                <div class="flex items-center gap-2 mb-3">
-                    <div class="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-white">
-                        <x-ui.icon name="arrow-down-long" class="w-4 h-4" />
-                    </div>
-                    <p class="text-xs font-bold text-gray-darker uppercase tracking-wide">Pemasukan</p>
-                </div>
-                <p class="font-bold text-primary text-sm tracking-tight">+ Rp {{ number_format($summary['pemasukan'], 0, ',', '.') }}</p>
-            </div>
-            <div class="flex-1 bg-white rounded-2xl p-4 shadow-sm border border-gray-200">
-                <div class="flex items-center gap-2 mb-3">
-                    <div class="w-8 h-8 rounded-full bg-danger-light flex items-center justify-center text-danger">
-                        <x-ui.icon name="arrow-up-long" class="w-4 h-4" />
-                    </div>
-                    <p class="text-xs font-bold text-gray-darker uppercase tracking-wide">Pengeluaran</p>
-                </div>
-                <p class="font-bold text-danger text-sm tracking-tight">- Rp {{ number_format($summary['pengeluaran'], 0, ',', '.') }}</p>
-            </div>
-        </div>
+        <x-home.income-expense-cards :pemasukan="$summary['pemasukan']" :pengeluaran="$summary['pengeluaran']" />
 
         <!-- Ringkasan Pemasukan -->
-        <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-200 mb-5">
-            <div class="flex justify-between items-end mb-4">
-                <h3 class="font-bold text-gray-deep leading-tight max-w-[200px]">Pemasukan<br>Berdasarkan Kategori</h3>
-                <a href="{{ route('reports', ['period_type' => 'bulanan', 'month_year' => $selectedMonthYear]) }}" class="text-xs text-info font-medium text-right leading-tight">Lihat<br>Semua</a>
-            </div>
-
-            <div class="space-y-4">
-                @forelse ($incomes as $inc)
-                    <div>
-                        <div class="flex justify-between items-end mb-1.5">
-                            <span class="text-sm text-gray-medium">{{ $inc['kategori'] }}</span>
-                            <span class="text-sm font-bold text-gray-deep">Rp {{ $inc['nominal'] }}</span>
-                        </div>
-                        <div x-data="{
-                                progress: 0,
-                                progressInterval: null,
-                                target: {{ $inc['percent'] }}
-                            }"
-                            x-init="
-                                progressInterval = setInterval(() => {
-                                    if (progress >= target) {
-                                        progress = target;
-                                        clearInterval(progressInterval);
-                                    } else {
-                                        progress = progress + 1;
-                                    }
-                                }, 15);
-                            "
-                            class="relative w-full h-2 overflow-hidden rounded-full bg-gray-200">
-                            <span :style="'width:' + progress + '%'" class="absolute h-full duration-300 ease-linear bg-secondary" x-cloak></span>
-                        </div>
-                    </div>
-                @empty
-                    <p class="text-sm text-gray-medium text-center py-2">Belum ada pemasukan pada periode ini.</p>
-                @endforelse
-            </div>
-        </div>
+        <x-home.category-income-summary :incomes="$incomes" :selectedMonthYear="$selectedMonthYear" />
 
         <!-- Ringkasan Pengeluaran -->
-        <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-200 mb-6">
-            <div class="flex justify-between items-end mb-4">
-                <h3 class="font-bold text-gray-deep leading-tight max-w-[200px]">Pengeluaran<br>Berdasarkan Kategori</h3>
-                <a href="{{ route('reports', ['period_type' => 'bulanan', 'month_year' => $selectedMonthYear]) }}" class="text-xs text-info font-medium text-right leading-tight">Lihat<br>Semua</a>
-            </div>
-
-            <div class="space-y-4">
-                @forelse ($expenses as $exp)
-                    <div>
-                        <div class="flex justify-between items-end mb-1.5">
-                            <span class="text-sm text-gray-medium">{{ $exp['kategori'] }}</span>
-                            <span class="text-sm font-bold text-gray-deep">Rp {{ $exp['nominal'] }}</span>
-                        </div>
-                        <div x-data="{
-                                progress: 0,
-                                progressInterval: null,
-                                target: {{ $exp['percent'] }}
-                            }"
-                            x-init="
-                                progressInterval = setInterval(() => {
-                                    if (progress >= target) {
-                                        progress = target;
-                                        clearInterval(progressInterval);
-                                    } else {
-                                        progress = progress + 1;
-                                    }
-                                }, 15);
-                            "
-                            class="relative w-full h-2 overflow-hidden rounded-full bg-gray-200">
-                            <span :style="'width:' + progress + '%'" class="absolute h-full duration-300 ease-linear bg-danger" x-cloak></span>
-                        </div>
-                    </div>
-                @empty
-                    <p class="text-sm text-gray-medium text-center py-2">Belum ada pengeluaran pada periode ini.</p>
-                @endforelse
-            </div>
-        </div>
+        <x-home.category-expense-summary :expenses="$expenses" :selectedMonthYear="$selectedMonthYear" />
 
         <!-- Transaksi Terakhir -->
-        <div class="mb-6">
-            <div class="flex justify-between items-center mb-4 px-1">
-                <h3 class="font-bold text-gray-deep text-lg">Transaksi Terakhir</h3>
-                <a href="{{ route('transactions.index') }}" class="text-sm text-info font-medium">Semua</a>
-            </div>
-
-            <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-                @forelse ($latestTransactions as $trx)
-                    <x-transaction.card :nama="$trx['nama']" :kategori="$trx['kategori']" :nominal="$trx['nominal']" :tipe="$trx['tipe']"
-                        :jam="$trx['jam']" />
-                @empty
-                    <div class="p-6 text-center text-sm text-gray-medium">
-                        Tidak ada transaksi pada periode ini.
-                    </div>
-                @endforelse
-            </div>
-        </div>
+        <x-home.latest-transactions :latestTransactions="$latestTransactions" />
     </div>
 </x-app-layout>

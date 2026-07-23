@@ -218,22 +218,22 @@ document.addEventListener('alpine:init', () => {
             this.isBellClicked = !this.isBellClicked;
             if (this.isBellClicked) {
                 this.bellNotify = 'silent-bell';
-                Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: "Notifikasi Dinyalakan",
-                    showConfirmButton: false,
-                    timer: 1500
-                });
+                // Swal.fire({
+                //     position: "center",
+                //     icon: "success",
+                //     title: "Notifikasi Dinyalakan",
+                //     showConfirmButton: false,
+                //     timer: 1500
+                // });
             } else {
                 this.bellNotify = 'bell';
-                Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: "Notifikasi Dimatikan",
-                    showConfirmButton: false,
-                    timer: 1500
-                });
+                // Swal.fire({
+                //     position: "center",
+                //     icon: "success",
+                //     title: "Notifikasi Dimatikan",
+                //     showConfirmButton: false,
+                //     timer: 1500
+                // });
             }
         }
     }));
@@ -462,15 +462,16 @@ document.addEventListener('alpine:init', () => {
             },
             getCategoryColor(name) {
                 const colors = {
-                    'tempat tinggal': '#015C4B',
-                    'makan': '#3B82F6',
-                    'makanan & minuman': '#3B82F6',
-                    'transportasi': '#F97316',
-                    'belanja': '#92400E',
-                    'gaji': '#10B981',
-                    'gaji & bonus': '#10B981',
-                    'investasi': '#3B82F6',
-                    'sampingan': '#A855F7',
+                    'makan': '#F43F5E',      // Rose 500 (Vibrant, appetite)
+                    'belanja': '#EC4899',    // Pink 500 (Shopping/Expressive)
+                    'transport': '#06B6D4',  // Cyan 500 (Sleek transit)
+                    'tagihan': '#6366F1',    // Indigo 500 (Solid/Bills)
+                    'hiburan': '#8B5CF6',    // Violet 500 (Creative/Playful)
+                    'kesehatan': '#10B981',  // Emerald 500 (Health/Mint)
+                    'pendidikan': '#3B82F6', // Blue 500 (Knowledge)
+                    'gaji': '#16A34A',       // Green 600 (Growth/Income)
+                    'investasi': '#0D9488',  // Teal 600 (Investment/Teal)
+                    'lainnya': '#9CA3AF',    // Gray 400 (Neutral fallback)
                 };
                 return colors[name.toLowerCase()] || '#9CA3AF';
             },
@@ -486,7 +487,7 @@ document.addEventListener('alpine:init', () => {
                 }
 
                 const labels = items.map(item => item.nama);
-                const data = items.map(item => item.percent_num);
+                const data = items.map(item => Math.round(item.percent_num));
                 const colors = items.map(item => this.getCategoryColor(item.nama));
 
                 return { labels, data, colors };

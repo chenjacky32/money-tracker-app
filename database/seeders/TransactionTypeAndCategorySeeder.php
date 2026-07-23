@@ -21,8 +21,8 @@ class TransactionTypeAndCategorySeeder extends Seeder
             ['name' => 'Transport', 'icon' => 'transport'],
             ['name' => 'Tagihan', 'icon' => 'bills'],
             ['name' => 'Hiburan', 'icon' => 'entertainment'],
-            ['name' => 'Sehat', 'icon' => 'health'],
-            ['name' => 'Edukasi', 'icon' => 'education'],
+            ['name' => 'Kesehatan', 'icon' => 'health'],
+            ['name' => 'Pendidikan', 'icon' => 'education'],
             ['name' => 'Lainnya', 'icon' => 'other'],
         ];
 

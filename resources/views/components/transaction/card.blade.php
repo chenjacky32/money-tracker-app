@@ -1,4 +1,4 @@
-@props(['nama', 'kategori', 'nominal', 'tipe', 'jam'])
+@props(['nama', 'kategori', 'nominal', 'tipe', 'jam', 'icon'])
 
 <div
     class="bg-white rounded-2xl p-4 flex items-center justify-between 
@@ -8,11 +8,7 @@
         <div
             class="w-12 h-12 rounded-2xl flex items-center justify-center 
                 {{ $tipe === 'pemasukan' ? 'bg-secondary text-white' : 'bg-muted text-gray-dark' }}">
-            @if ($tipe === 'pemasukan')
-                <x-ui.icon name="wallet-solid" class="w-6 h-6" />
-            @else
-                <x-ui.icon name="food" class="w-6 h-6" />
-            @endif
+            <x-ui.icon :name="$icon ?? 'other'" class="w-6 h-6" />
         </div>
         <div class="text-start">
             <h4 class="font-semibold text-gray-deep">{{ $nama }}</h4>

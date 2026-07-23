@@ -1,6 +1,7 @@
 <x-app-layout>
     <div class="px-6 py-5 bg-background sticky top-0 z-20">
-        <h2 class="text-2xl font-bold text-primary">Profile</h2>
+        <h2 class="text-2xl font-bold text-gray-deep mb-1">Profile</h2>
+        <p class="text-sm text-gray-medium mb-6">Atur profile dan preferensi anda.</p>
 
         <!-- User Info Section -->
         <div class="flex flex-col items-center text-center mb-8 mt-4">
