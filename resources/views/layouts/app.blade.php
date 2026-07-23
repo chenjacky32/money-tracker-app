@@ -9,11 +9,18 @@
 </head>
 
 <body class="font-sans antialiased bg-gray-100 text-gray-900">
-    <div class="max-w-md mx-auto min-h-screen relative bg-background py-20 shadow-xl overflow-x-hidden">
+    <div x-data="{ loading: true }" x-init="setTimeout(() => loading = false, 500)"
+        class="max-w-md mx-auto min-h-screen relative bg-background py-20 shadow-xl overflow-x-hidden">
         <!-- Header UI Component -->
         <x-layout.header-nav />
 
-        {{ $slot }}
+        <div x-show="loading">
+            <x-layout.page-skeleton />
+        </div>
+
+        <div x-show="!loading" x-cloak>
+            {{ $slot }}
+        </div>
 
         <!-- Floating Action Button -->
         <a href="/transactions/create"

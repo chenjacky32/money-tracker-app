@@ -9,8 +9,14 @@
 </head>
 
 <body class="font-sans antialiased bg-gray-100 text-gray-900">
-    <div class="max-w-md mx-auto min-h-screen relative bg-background shadow-xl">
-        {{ $slot }}
+    <div x-data="{ loading: true }" x-init="setTimeout(() => loading = false, 500)"
+        class="max-w-md mx-auto min-h-screen relative bg-background shadow-xl">
+        <div x-show="loading">
+            <x-layout.page-skeleton />
+        </div>
+        <div x-show="!loading" x-cloak>
+            {{ $slot }}
+        </div>
     </div>
 
     @if (session('success'))
