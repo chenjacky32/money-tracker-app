@@ -139,9 +139,12 @@ class TransactionRepository
         $query = Transaction::query()
             ->where('user_id', $userId);
 
+        // Filter berdasarkan rentang tanggal (tanggal mulai dan tanggal akhir)
         if ($startDate && $endDate) {
             $query->whereBetween('date', [$startDate, $endDate]);
-        } elseif ($month && $year) {
+        
+        // Filter berdasarkan bulan dan tahun
+        } elseif ($month && $year) { 
             $query->whereMonth('date', $month)
                 ->whereYear('date', $year);
         }
@@ -158,6 +161,8 @@ class TransactionRepository
         $pengeluaran = $pengeluaranType && isset($sums[$pengeluaranType->id]) ? (float) $sums[$pengeluaranType->id]->total : 0.0;
 
         return [
+            'tanggal_mulai' => $startDate ?? null,
+            'tanggal_akhir' => $endDate ?? null,
             'pemasukan' => $pemasukan,
             'pengeluaran' => $pengeluaran,
             'total' => $pemasukan - $pengeluaran,

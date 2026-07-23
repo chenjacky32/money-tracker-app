@@ -6,13 +6,6 @@
             datePickerYear = parseInt(parts[1]);
             updateSelectedValue();
         }
-        $watch('SelectedMonthAndYear', (val) => {
-            const url = new URL(window.location.href);
-            if (url.searchParams.get('month_year') !== val) {
-                url.searchParams.set('month_year', val);
-                window.location.href = url.pathname + url.search;
-            }
-        });
     "
     class="flex items-center justify-between bg-white rounded-2xl border border-gray-200 p-4 shadow-sm mb-6 relative">
     <button @click="prevMonth()" type="button"

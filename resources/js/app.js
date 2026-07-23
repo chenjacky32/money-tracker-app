@@ -4,6 +4,7 @@ import Chart from 'chart.js/auto';
 
 window.Alpine = Alpine;
 window.Swal = Swal;
+window.Chart = Chart;
 
 document.addEventListener('alpine:init', () => {
     // 1. Month Selector Component Logic
@@ -19,6 +20,33 @@ document.addEventListener('alpine:init', () => {
             this.datePickerMonth = currentDate.getMonth();
             this.datePickerYear = currentDate.getFullYear();
             this.updateSelectedValue();
+            
+            this.$watch('SelectedMonthAndYear', (val) => {
+                const url = new URL(window.location.href);
+                let changed = false;
+
+                if (url.searchParams.get('month_year') !== val) {
+                    url.searchParams.set('month_year', val);
+                    changed = true;
+                }
+                
+                if (url.searchParams.has('start_date')) {
+                    url.searchParams.delete('start_date');
+                    changed = true;
+                }
+                if (url.searchParams.has('end_date')) {
+                    url.searchParams.delete('end_date');
+                    changed = true;
+                }
+                if (url.searchParams.get('period_type') !== 'bulanan') {
+                    url.searchParams.set('period_type', 'bulanan');
+                    changed = true;
+                }
+
+                if (changed) {
+                    window.location.href = url.pathname + url.search;
+                }
+            });
         },
 
         get formattedMonthYear() {
@@ -239,7 +267,15 @@ document.addEventListener('alpine:init', () => {
     }));
 
     // 4. Reports Logic Component
-    Alpine.data('reportsLogic', (initialIncomes = [], initialExpenses = [], initialSummary = {}, initialPeriodType = 'bulanan', initialStartDate = '', initialEndDate = '', initialMonthYear = '') => {
+    Alpine.data('reportsLogic', (
+        initialIncomes = [],
+        initialExpenses = [],
+        initialSummary = {},
+        initialPeriodType = 'bulanan',
+        initialStartDate = '',
+        initialEndDate = '',
+        initialMonthYear = ''
+    ) => {
         let chartInstance = null;
 
         return {
@@ -248,19 +284,20 @@ document.addEventListener('alpine:init', () => {
             incomes: initialIncomes,
             expenses: initialExpenses,
             summary: initialSummary,
-            monthYear: initialMonthYear,
+
 
             // Date Range Selector State
+            monthYear: initialMonthYear,
             startDate: initialStartDate,
             endDate: initialEndDate,
             startPickerOpen: false,
             endPickerOpen: false,
             startPickerMonth: 0,
-            startPickerYear: 2026,
+            startPickerYear: new Date().getFullYear(),
             startPickerDaysInMonth: [],
             startPickerBlankDaysInMonth: [],
             endPickerMonth: 0,
-            endPickerYear: 2026,
+            endPickerYear: new Date().getFullYear(),
             endPickerDaysInMonth: [],
             endPickerBlankDaysInMonth: [],
 
@@ -310,6 +347,9 @@ document.addEventListener('alpine:init', () => {
                 this.$watch('SelectedTransactionType', (val) => {
                     this.updateChart();
                 });
+                this.$watch('monthYear', (val) => {
+                    this.triggerReload();
+                });
             },
 
             triggerReload() {
@@ -322,12 +362,37 @@ document.addEventListener('alpine:init', () => {
                 }
 
                 if (this.SelectedPeriodType === 'rentang_tanggal') {
+                    if (url.searchParams.has('month_year')) {
+                        url.searchParams.delete('month_year');
+                        changed = true;
+                    }
                     if (url.searchParams.get('start_date') !== this.startDate) {
                         url.searchParams.set('start_date', this.startDate);
                         changed = true;
                     }
                     if (url.searchParams.get('end_date') !== this.endDate) {
                         url.searchParams.set('end_date', this.endDate);
+                        changed = true;
+                    }
+                } else if (this.SelectedPeriodType === 'bulanan') {
+                    if (url.searchParams.has('start_date')) {
+                        url.searchParams.delete('start_date');
+                        changed = true;
+                    }
+                    if (url.searchParams.has('end_date')) {
+                        url.searchParams.delete('end_date');
+                        changed = true;
+                    }
+
+                    if (!this.monthYear) {
+                        let currentDate = new Date();
+                        let m = ('0' + (currentDate.getMonth() + 1)).slice(-2);
+                        let y = currentDate.getFullYear();
+                        this.monthYear = `${m}/${y}`;
+                    }
+
+                    if (url.searchParams.get('month_year') !== this.monthYear) {
+                        url.searchParams.set('month_year', this.monthYear);
                         changed = true;
                     }
                 }

@@ -27,7 +27,7 @@ class ReportController extends Controller
 
         $data = $action->execute($filter);
 
-        return view('reports.index', [
+        $result = [
             'summary' => $data['summary'],
             'incomes' => $data['incomes'],
             'expenses' => $data['expenses'],
@@ -35,6 +35,13 @@ class ReportController extends Controller
             'selectedMonthYear' => $selectedMonthYear,
             'startDate' => $startDate,
             'endDate' => $endDate,
-        ]);
+        ];
+
+        // echo ("<pre>");
+        // print_r(json_encode($result, JSON_PRETTY_PRINT));
+        // echo ("</pre>");
+        // die();
+
+        return view('reports.index', $result);
     }
 }
