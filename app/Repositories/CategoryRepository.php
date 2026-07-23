@@ -28,4 +28,9 @@ class CategoryRepository
             'icon' => 'other' // default icon for custom categories
         ]);
     }
+
+    public function findById(int $id): ?Category
+    {
+        return Category::query()->where('id', $id)->first();
+    }
 }

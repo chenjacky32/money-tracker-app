@@ -4,6 +4,7 @@
             <div class="mb-10 text-center">
                 <div
                     class="w-14 h-14 bg-[#F2F4F3] border border-gray-200 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                    <x-ui.icon name="coin" class="w-7 h-7 text-primary" />
                 </div>
                 <h1 class="text-[32px] font-bold text-primary tracking-tight">Money Tracker</h1>
                 <p class="text-gray-medium mt-3 text-[15px] leading-relaxed max-w-[280px] mx-auto">
@@ -57,7 +58,7 @@
             </form>
 
             {{-- Or --}}
-            <div class="mt-8 mb-6">
+            {{-- <div class="mt-8 mb-6">
                 <div class="relative">
                     <div class="absolute inset-0 flex items-center">
                         <div class="w-full border-t border-gray-200"></div>
@@ -66,17 +67,18 @@
                         <span class="px-4 bg-white text-gray-light">or</span>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
-            <button type="button"
+            {{-- <button type="button"
                 class="w-full bg-[#F8FAF9] border border-gray-200 text-gray-darker rounded-xl py-3.5 font-medium text-[15px] hover:bg-gray-100 transition flex items-center justify-center gap-3">
                 <x-ui.icon name="google" />
                 Lanjutkan dengan Google
-            </button>
+            </button> --}}
         </div>
 
         <p class="text-center text-[15px] text-gray-medium mt-auto pt-8">
-            Don't have an account? <a href="#" class="font-bold text-primary hover:underline">Sign up</a>
+            Don't have an account? <a href="{{ route('register') }}" class="font-bold text-primary hover:underline">Sign
+                up</a>
         </p>
     </div>
 </x-guest-layout>

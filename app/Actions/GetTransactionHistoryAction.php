@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Actions\Transaction;
+namespace App\Actions;
 
-use App\DTOs\Transaction\TransactionFilterDTO;
+use App\DTOs\TransactionFilterDTO;
 use App\Services\TransactionService;
 
 class GetTransactionHistoryAction

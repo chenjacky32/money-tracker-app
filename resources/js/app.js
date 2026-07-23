@@ -4,6 +4,7 @@ import Chart from 'chart.js/auto';
 
 window.Alpine = Alpine;
 window.Swal = Swal;
+window.Chart = Chart;
 
 document.addEventListener('alpine:init', () => {
     // 1. Month Selector Component Logic
@@ -19,6 +20,33 @@ document.addEventListener('alpine:init', () => {
             this.datePickerMonth = currentDate.getMonth();
             this.datePickerYear = currentDate.getFullYear();
             this.updateSelectedValue();
+
+            this.$watch('SelectedMonthAndYear', (val) => {
+                const url = new URL(window.location.href);
+                let changed = false;
+
+                if (url.searchParams.get('month_year') !== val) {
+                    url.searchParams.set('month_year', val);
+                    changed = true;
+                }
+
+                if (url.searchParams.has('start_date')) {
+                    url.searchParams.delete('start_date');
+                    changed = true;
+                }
+                if (url.searchParams.has('end_date')) {
+                    url.searchParams.delete('end_date');
+                    changed = true;
+                }
+                if (url.searchParams.get('period_type') !== 'bulanan') {
+                    url.searchParams.set('period_type', 'bulanan');
+                    changed = true;
+                }
+
+                if (changed) {
+                    window.location.href = url.pathname + url.search;
+                }
+            });
         },
 
         get formattedMonthYear() {
@@ -218,45 +246,58 @@ document.addEventListener('alpine:init', () => {
             this.isBellClicked = !this.isBellClicked;
             if (this.isBellClicked) {
                 this.bellNotify = 'silent-bell';
-                Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: "Notifikasi Dinyalakan",
-                    showConfirmButton: false,
-                    timer: 1500
-                });
+                // Swal.fire({
+                //     position: "center",
+                //     icon: "success",
+                //     title: "Notifikasi Dinyalakan",
+                //     showConfirmButton: false,
+                //     timer: 1500
+                // });
             } else {
                 this.bellNotify = 'bell';
-                Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: "Notifikasi Dimatikan",
-                    showConfirmButton: false,
-                    timer: 1500
-                });
+                // Swal.fire({
+                //     position: "center",
+                //     icon: "success",
+                //     title: "Notifikasi Dimatikan",
+                //     showConfirmButton: false,
+                //     timer: 1500
+                // });
             }
         }
     }));
 
     // 4. Reports Logic Component
-    Alpine.data('reportsLogic', () => {
+    Alpine.data('reportsLogic', (
+        initialIncomes = [],
+        initialExpenses = [],
+        initialSummary = {},
+        initialPeriodType = 'bulanan',
+        initialStartDate = '',
+        initialEndDate = '',
+        initialMonthYear = ''
+    ) => {
         let chartInstance = null;
 
         return {
-            SelectedPeriodType: 'bulanan', // 'bulanan', 'rentang_tanggal'
-            SelectedTransactionType: 'pengeluaran', // 'pemasukan', 'pengeluaran'
+            SelectedPeriodType: initialPeriodType,
+            SelectedTransactionType: 'pengeluaran',
+            incomes: initialIncomes,
+            expenses: initialExpenses,
+            summary: initialSummary,
+
 
             // Date Range Selector State
-            startDate: '',
-            endDate: '',
+            monthYear: initialMonthYear,
+            startDate: initialStartDate,
+            endDate: initialEndDate,
             startPickerOpen: false,
             endPickerOpen: false,
             startPickerMonth: 0,
-            startPickerYear: 2026,
+            startPickerYear: new Date().getFullYear(),
             startPickerDaysInMonth: [],
             startPickerBlankDaysInMonth: [],
             endPickerMonth: 0,
-            endPickerYear: 2026,
+            endPickerYear: new Date().getFullYear(),
             endPickerDaysInMonth: [],
             endPickerBlankDaysInMonth: [],
 
@@ -264,21 +305,28 @@ document.addEventListener('alpine:init', () => {
             datePickerDays: ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'],
 
             init() {
-                // Default dates logic: current month start and end
-                let currentDate = new Date();
-                let year = currentDate.getFullYear();
-                let month = currentDate.getMonth();
+                if (!this.startDate || !this.endDate) {
+                    let currentDate = new Date();
+                    let year = currentDate.getFullYear();
+                    let month = currentDate.getMonth();
 
-                let firstDay = new Date(year, month, 1);
-                let lastDay = new Date(year, month + 1, 0);
+                    let firstDay = new Date(year, month, 1);
+                    let lastDay = new Date(year, month + 1, 0);
 
-                this.startDate = this.formatYYYYMMDD(firstDay);
-                this.endDate = this.formatYYYYMMDD(lastDay);
+                    this.startDate = this.formatYYYYMMDD(firstDay);
+                    this.endDate = this.formatYYYYMMDD(lastDay);
+                }
 
-                this.startPickerMonth = month;
-                this.startPickerYear = year;
-                this.endPickerMonth = month;
-                this.endPickerYear = year;
+                let sParts = this.startDate.split('-');
+                if (sParts.length === 3) {
+                    this.startPickerYear = parseInt(sParts[0], 10);
+                    this.startPickerMonth = parseInt(sParts[1], 10) - 1;
+                }
+                let eParts = this.endDate.split('-');
+                if (eParts.length === 3) {
+                    this.endPickerYear = parseInt(eParts[0], 10);
+                    this.endPickerMonth = parseInt(eParts[1], 10) - 1;
+                }
 
                 this.startPickerCalculateDays();
                 this.endPickerCalculateDays();
@@ -287,10 +335,77 @@ document.addEventListener('alpine:init', () => {
                     this.initChart();
                 });
 
-                this.$watch('SelectedPeriodType', () => this.updateChart());
-                this.$watch('SelectedTransactionType', () => this.updateChart());
-                this.$watch('startDate', () => this.updateChart());
-                this.$watch('endDate', () => this.updateChart());
+                this.$watch('SelectedPeriodType', (val) => {
+                    this.triggerReload();
+                });
+                this.$watch('startDate', (val) => {
+                    this.triggerReload();
+                });
+                this.$watch('endDate', (val) => {
+                    this.triggerReload();
+                });
+                this.$watch('SelectedTransactionType', (val) => {
+                    this.updateChart();
+                });
+                this.$watch('monthYear', (val) => {
+                    this.triggerReload();
+                    this.updateChart();
+                });
+            },
+
+            triggerReload() {
+                const url = new URL(window.location.href);
+                let changed = false;
+
+                if (url.searchParams.get('period_type') !== this.SelectedPeriodType) {
+                    url.searchParams.set('period_type', this.SelectedPeriodType);
+                    changed = true;
+                }
+
+                if (this.SelectedPeriodType === 'rentang_tanggal') {
+                    if (url.searchParams.has('month_year')) {
+                        url.searchParams.delete('month_year');
+                        changed = true;
+                    }
+                    if (url.searchParams.get('start_date') !== this.startDate) {
+                        url.searchParams.set('start_date', this.startDate);
+                        changed = true;
+                    }
+                    if (url.searchParams.get('end_date') !== this.endDate) {
+                        url.searchParams.set('end_date', this.endDate);
+                        changed = true;
+                    }
+                } else if (this.SelectedPeriodType === 'bulanan') {
+                    if (url.searchParams.has('start_date')) {
+                        url.searchParams.delete('start_date');
+                        changed = true;
+                    }
+                    if (url.searchParams.has('end_date')) {
+                        url.searchParams.delete('end_date');
+                        changed = true;
+                    }
+
+                    if (!this.monthYear) {
+                        let currentDate = new Date();
+                        let m = ('0' + (currentDate.getMonth() + 1)).slice(-2);
+                        let y = currentDate.getFullYear();
+                        this.monthYear = `${m}/${y}`;
+                    }
+
+                    if (url.searchParams.get('month_year') !== this.monthYear) {
+                        url.searchParams.set('month_year', this.monthYear);
+                        changed = true;
+                    }
+                }
+
+                if (changed) {
+                    window.location.href = url.pathname + url.search;
+                }
+            },
+
+            formatRupiah(amount) {
+                if (amount === undefined || amount === null) return '0';
+                return new Intl.NumberFormat('id-ID').format(amount);
             },
 
             formatYYYYMMDD(date) {
@@ -404,7 +519,6 @@ document.addEventListener('alpine:init', () => {
                     this.startDate = formatted;
                 }
                 this.endDate = formatted;
-                console.log(this.endDate);
                 this.endPickerOpen = false;
             },
 
@@ -412,30 +526,52 @@ document.addEventListener('alpine:init', () => {
                 const d = new Date(this.endPickerYear, this.endPickerMonth, day);
                 return this.endDate === this.formatYYYYMMDD(d);
             },
+            getCategoryColor(name) {
+                const colors = {
+                    'makan': '#F43F5E',      // Rose 500 (Vibrant, appetite)
+                    'belanja': '#EC4899',    // Pink 500 (Shopping/Expressive)
+                    'transport': '#06B6D4',  // Cyan 500 (Sleek transit)
+                    'tagihan': '#6366F1',    // Indigo 500 (Solid/Bills)
+                    'hiburan': '#8B5CF6',    // Violet 500 (Creative/Playful)
+                    'kesehatan': '#10B981',  // Emerald 500 (Health/Mint)
+                    'pendidikan': '#3B82F6', // Blue 500 (Knowledge)
+                    'gaji': '#16A34A',       // Green 600 (Growth/Income)
+                    'investasi': '#0D9488',  // Teal 600 (Investment/Teal)
+                    'lainnya': '#9CA3AF',    // Gray 400 (Neutral fallback)
+                };
+                return colors[name.toLowerCase()] || '#9CA3AF';
+            },
+
+            getChartData() {
+                const items = this.SelectedTransactionType === 'pemasukan' ? this.incomes : this.expenses;
+                if (!items || items.length === 0) {
+                    return {
+                        labels: ['Tidak ada data'],
+                        data: [100],
+                        colors: ['#E5E7EB']
+                    };
+                }
+
+                const labels = items.map(item => item.nama);
+                const data = items.map(item => Math.round(item.percent_num));
+                const colors = items.map(item => this.getCategoryColor(item.nama));
+
+                return { labels, data, colors };
+            },
 
             initChart() {
                 const ctx = document.getElementById('pieChart');
                 if (!ctx) return;
 
-                const primaryColor = '#015C4B';
-                const blueColor = '#3B82F6';
-                const orangeColor = '#F97316';
-                const amberColor = '#92400E';
-                const grayColor = '#9CA3AF';
+                const chartData = this.getChartData();
 
                 chartInstance = new Chart(ctx, {
                     type: 'doughnut',
                     data: {
-                        labels: ['Tempat Tinggal', 'Makanan', 'Transportasi', 'Belanja', 'Lainnya'],
+                        labels: chartData.labels,
                         datasets: [{
-                            data: [40, 20, 15, 15, 10],
-                            backgroundColor: [
-                                primaryColor,
-                                blueColor,
-                                orangeColor,
-                                amberColor,
-                                grayColor
-                            ],
+                            data: chartData.data,
+                            backgroundColor: chartData.colors,
                             borderWidth: 4,
                             borderColor: '#ffffff',
                             hoverOffset: 4
@@ -450,6 +586,7 @@ document.addEventListener('alpine:init', () => {
                             tooltip: {
                                 callbacks: {
                                     label: function (context) {
+                                        if (context.label === 'Tidak ada data') return ' Tidak ada data';
                                         return ` ${context.label}: ${context.raw}%`;
                                     }
                                 }
@@ -464,21 +601,42 @@ document.addEventListener('alpine:init', () => {
             updateChart() {
                 if (!chartInstance) return;
 
-                let data = [40, 20, 15, 15, 10];
-                if (this.SelectedTransactionType === 'pemasukan') {
-                    data = [60, 25, 15, 0, 0];
-                }
+                const chartData = this.getChartData();
 
-                // Dummy modification based on period
-                if (this.SelectedPeriodType === 'rentang_tanggal') {
-                    data = data.map(val => Math.max(1, Math.round(val * 0.7)));
-                }
-
-                chartInstance.data.datasets[0].data = data;
+                chartInstance.data.labels = chartData.labels;
+                chartInstance.data.datasets[0].data = chartData.data;
+                chartInstance.data.datasets[0].backgroundColor = chartData.colors;
                 chartInstance.update();
             }
         };
     });
+
+    // 5. Toggle Theme mode
+    Alpine.data('themeToggle', () => ({
+        isDark: false,
+
+        init() {
+            const storedTheme = localStorage.getItem('theme');
+            if (storedTheme === 'dark') {
+                this.isDark = true;
+                document.documentElement.classList.add('dark');
+            } else {
+                this.isDark = false;
+                document.documentElement.classList.remove('dark');
+            }
+        },
+
+        toggleTheme() {
+            this.isDark = !this.isDark;
+            if (this.isDark) {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+    }));
 });
 
 Alpine.start();

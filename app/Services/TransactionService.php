@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
-use App\DTOs\Transaction\CreateTransactionDTO;
-use App\DTOs\Transaction\TransactionFilterDTO;
-use App\DTOs\Transaction\UpdateTransactionDTO;
+use App\DTOs\CreateTransactionDTO;
+use App\DTOs\TransactionFilterDTO;
+use App\DTOs\UpdateTransactionDTO;
 use App\Models\Category;
 use App\Models\Transaction;
 use App\Repositories\CategoryRepository;
@@ -46,7 +46,7 @@ class TransactionService
 
         // 2. Resolve Category ID (Handle custom category if category is "Lainnya" and name is provided)
         $categoryId = $dto->categoryId;
-        $lainnyaCategory = Category::find($categoryId);
+        $lainnyaCategory = $this->categoryRepo->findById($categoryId);
 
         if ($lainnyaCategory && strtolower($lainnyaCategory->name) === 'lainnya' && !empty($customCategoryName)) {
             $customCategory = $this->categoryRepo->firstOrCreateCustom(
@@ -83,7 +83,7 @@ class TransactionService
 
         // 2. Resolve Category ID (Handle custom category if category is "Lainnya" and name is provided)
         $categoryId = $dto->categoryId;
-        $lainnyaCategory = Category::find($categoryId);
+        $lainnyaCategory = $this->categoryRepo->findById($categoryId);
 
         if ($lainnyaCategory && strtolower($lainnyaCategory->name) === 'lainnya' && !empty($customCategoryName)) {
             $customCategory = $this->categoryRepo->firstOrCreateCustom(

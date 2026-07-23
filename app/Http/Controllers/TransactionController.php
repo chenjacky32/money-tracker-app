@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\Transaction\CreateTransactionAction;
-use App\Actions\Transaction\DeleteTransactionAction;
-use App\Actions\Transaction\GetTransactionHistoryAction;
-use App\Actions\Transaction\UpdateTransactionAction;
-use App\DTOs\Transaction\CreateTransactionDTO;
-use App\DTOs\Transaction\TransactionFilterDTO;
-use App\DTOs\Transaction\UpdateTransactionDTO;
+use App\Actions\CreateTransactionAction;
+use App\Actions\DeleteTransactionAction;
+use App\Actions\GetTransactionHistoryAction;
+use App\Actions\UpdateTransactionAction;
+use App\DTOs\CreateTransactionDTO;
+use App\DTOs\TransactionFilterDTO;
+use App\DTOs\UpdateTransactionDTO;
 use App\Http\Requests\Transaction\GetHistoryRequest;
 use App\Http\Requests\Transaction\StoreTransactionRequest;
 use App\Http\Requests\Transaction\UpdateTransactionRequest;
