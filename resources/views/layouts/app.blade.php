@@ -8,7 +8,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="font-sans antialiased bg-gray-100 text-gray-900">
+<body class="font-sans antialiased bg-background text-gray-deep">
     <div x-data="{ loading: true }" x-init="setTimeout(() => loading = false, 500)"
         class="max-w-md mx-auto min-h-screen relative bg-background py-20 shadow-xl overflow-x-hidden">
         <!-- Header UI Component -->

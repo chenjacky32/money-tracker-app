@@ -8,7 +8,7 @@
                 @click="SelectedCategory = '{{ $cat->id }}'" data-category-id="{{ $cat->id }}"
                 data-category-name="{{ strtolower($cat->name) }}"
                 :class="SelectedCategory === '{{ $cat->id }}' ? 'bg-secondary text-white border-secondary' :
-                    'bg-white text-gray-light border-gray-200 hover:bg-gray-50'"
+                    'bg-muted text-gray-light border-gray-200 hover:bg-gray-50'"
                 class="cursor-pointer flex flex-col items-center py-4 rounded-[20px] shadow-sm transition border">
 
                 <div x-show="SelectedCategory === '{{ $cat->id }}'">
@@ -29,9 +29,8 @@
 
     <!-- Input Kategori Lainnya (hanya muncul saat kategori 'Lainnya' dipilih) -->
     <div x-show="SelectedCategoryName === 'lainnya'" x-transition x-cloak
-        class="bg-white rounded-[20px] border border-gray-200 p-4 mt-4 shadow-sm flex items-center gap-4">
-        <div
-            class="w-10 h-10 bg-muted rounded-full flex items-center justify-center text-gray-medium shrink-0">
+        class="bg-white dark:bg-muted rounded-[20px] border border-gray-soft p-4 mt-4 shadow-sm flex items-center gap-4">
+        <div class="w-10 h-10 bg-muted rounded-full flex items-center justify-center text-gray-medium shrink-0">
             <x-ui.icon name="document-text" class="w-5 h-5" />
         </div>
         <div class="w-full">

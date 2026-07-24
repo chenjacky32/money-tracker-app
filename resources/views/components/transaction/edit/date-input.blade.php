@@ -1,6 +1,6 @@
 <div class="relative mt-6">
     <div @click="datePickerOpen = !datePickerOpen"
-        class="bg-white rounded-[20px] border border-gray-200 p-4 shadow-sm flex items-center justify-between cursor-pointer">
+        class="bg-background dark:bg-muted rounded-[20px] border border-gray-soft p-4 shadow-sm flex items-center justify-between cursor-pointer">
         <div class="flex items-center gap-4">
             <div class="w-10 h-10 bg-muted rounded-full flex items-center justify-center text-gray-medium">
                 <x-ui.icon name="calendar" class="w-5 h-5" />
@@ -15,16 +15,17 @@
 
     <!-- Datepicker Modal -->
     <div x-show="datePickerOpen" @click.away="datePickerOpen = false" x-transition x-cloak
-        class="absolute top-full left-0 mt-2 w-full max-w-sm bg-white border border-gray-200 rounded-xl shadow-lg p-4 z-50">
+        class="absolute top-full left-0 mt-2 w-full max-w-sm bg-background dark:bg-muted border border-gray-soft rounded-xl shadow-lg p-4 z-50">
         <div class="flex justify-between items-center mb-4">
             <button @click.prevent="datePickerPreviousMonth()" type="button"
-                class="p-1 hover:bg-gray-100 rounded-full transition">
+                class="p-1 text-gray-darker hover:bg-gray-soft rounded-full transition">
                 <x-ui.icon name="chevron-left" class="w-5 h-5" />
             </button>
-            <div class="font-bold text-gray-deep"
-                x-text="datePickerMonthNames[datePickerMonth] + ' ' + datePickerYear"></div>
+            <div class="font-bold text-gray-darker"
+                x-text="datePickerMonthNames[datePickerMonth] + ' ' + datePickerYear">
+            </div>
             <button @click.prevent="datePickerNextMonth()" type="button"
-                class="p-1 hover:bg-gray-100 rounded-full transition">
+                class="p-1 text-gray-darker hover:bg-gray-soft rounded-full transition">
                 <x-ui.icon name="chevron-right-thick" class="w-5 h-5" />
             </button>
         </div>
@@ -41,7 +42,7 @@
                 <button @click.prevent="datePickerDayClicked(day)" type="button"
                     :class="{
                         'bg-primary text-white': datePickerIsSelectedDate(day),
-                        'text-gray-900 hover:bg-gray-100': !datePickerIsSelectedDate(day)
+                        'text-gray-darker hover:bg-gray-soft': !datePickerIsSelectedDate(day)
                     }"
                     class="w-8 h-8 mx-auto flex justify-center items-center rounded-full text-sm transition"
                     x-text="day"></button>

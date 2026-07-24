@@ -1,10 +1,10 @@
 <x-guest-layout>
     <x-guest-layout>
-        <div class="px-6 py-12 flex flex-col min-h-screen bg-white">
+        <div class="px-6 py-12 flex flex-col min-h-screen bg-background">
             <div class="flex-1 flex flex-col justify-center max-w-sm mx-auto w-full">
                 <div class="mb-10 text-center">
                     <div
-                        class="w-14 h-14 bg-[#F2F4F3] border border-gray-200 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        class="w-14 h-14 bg-gray-soft border border-gray-200 rounded-2xl flex items-center justify-center mx-auto mb-6">
                         <x-ui.icon name="user-plus" class="w-8 h-8 text-primary" />
                     </div>
                     <!-- Tag Konteks Kecil di atas nama aplikasi -->
@@ -22,7 +22,7 @@
                     <div>
                         <x-input-label for="name" :value="__('Name')" />
                         <x-ui.input type="text" id="name" name="name" :value="old('name')" required autofocus
-                            placeholder="Enter your name" class="bg-[#F8FAF9]">
+                            placeholder="Enter your name">
                             <x-slot name="icon">
                                 <x-ui.icon name="person" />
                             </x-slot>
@@ -34,7 +34,7 @@
                     <div>
                         <x-input-label for="email" :value="__('Email')" />
                         <x-ui.input type="email" id="email" name="email" :value="old('email')" required autofocus
-                            placeholder="Enter your email" class="bg-[#F8FAF9]">
+                            placeholder="Enter your email">
                             <x-slot name="icon">
                                 <x-ui.icon name="email" />
                             </x-slot>
@@ -46,7 +46,7 @@
                     <div>
                         <x-input-label for="password" :value="__('Password')" />
                         <x-ui.input type="password" id="password" name="password" required
-                            autocomplete="current-password" placeholder="••••••••" class="bg-[#F8FAF9]">
+                            autocomplete="current-password" placeholder="••••••••">
                             <x-slot name="icon">
                                 <x-ui.icon name="password" />
                             </x-slot>
@@ -58,7 +58,7 @@
                     <div>
                         <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
                         <x-ui.input type="password" id="password_confirmation" name="password_confirmation" required
-                            autocomplete="current-password" placeholder="••••••••" class="bg-[#F8FAF9]">
+                            autocomplete="current-password" placeholder="••••••••">
                             <x-slot name="icon">
                                 <x-ui.icon name="password" />
                             </x-slot>

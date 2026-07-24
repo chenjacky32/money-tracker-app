@@ -1,4 +1,4 @@
-<div class="flex bg-toggle-bg border border-gray-200 p-1.5 rounded-xl mb-8">
+<div class="flex bg-toggle-bg border border-gray-soft p-1.5 rounded-xl mb-8">
     <button type="button" @click="SelectedTransactionType = 'pengeluaran'"
         :class="SelectedTransactionType === 'pengeluaran' ? 'bg-white shadow-sm text-primary' :
             'text-gray-medium hover:text-gray-deep'"

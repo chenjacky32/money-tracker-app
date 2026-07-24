@@ -3,7 +3,7 @@
     <a href="{{ route('home') }}"
         class="flex flex-col items-center {{ request()->routeIs('home') ? 'text-secondary' : 'text-gray-light hover:text-secondary' }}">
         @if (request()->routeIs('home'))
-            <div class="bg-secondary text-white p-1 rounded-lg mb-1">
+            <div class="bg-secondary text-gray-soft p-1 rounded-lg mb-1">
                 <x-ui.icon name="home-solid" class="w-6 h-6" />
             </div>
             <span class="text-xs font-bold">Home</span>
@@ -16,7 +16,7 @@
     <a href="{{ route('transactions.index') }}"
         class="flex flex-col items-center {{ request()->routeIs('transactions.index') ? 'text-secondary' : 'text-gray-light hover:text-secondary' }}">
         @if (request()->routeIs('transactions.index'))
-            <div class="bg-secondary text-white p-1 rounded-lg mb-1">
+            <div class="bg-secondary text-gray-soft p-1 rounded-lg mb-1">
                 <x-ui.icon name="wallet-solid" class="w-6 h-6" />
             </div>
             <span class="text-xs font-bold">Transactions</span>
@@ -29,7 +29,7 @@
     <a href="{{ route('reports') }}"
         class="flex flex-col items-center {{ request()->routeIs('reports') ? 'text-secondary' : 'text-gray-light hover:text-secondary' }}">
         @if (request()->routeIs('reports'))
-            <div class="bg-secondary text-white p-1 rounded-lg mb-1">
+            <div class="bg-secondary text-gray-soft p-1 rounded-lg mb-1">
                 <x-ui.icon name="reports-solid" class="w-6 h-6" />
             </div>
             <span class="text-xs font-bold">Reports</span>
@@ -42,7 +42,7 @@
     <a href="{{ route('profile') }}"
         class="flex flex-col items-center {{ request()->routeIs('profile') ? 'text-secondary' : 'text-gray-light hover:text-secondary' }}">
         @if (request()->routeIs('profile'))
-            <div class="bg-secondary text-white p-1 rounded-lg mb-1">
+            <div class="bg-secondary text-gray-soft p-1 rounded-lg mb-1">
                 <x-ui.icon name="profile-solid" class="w-6 h-6" />
             </div>
             <span class="text-xs font-bold">Profile</span>
