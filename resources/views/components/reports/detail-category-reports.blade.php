@@ -30,7 +30,7 @@
 <div x-show="SelectedTransactionType === 'pemasukan'" x-transition x-cloak>
     <h3 class="font-bold text-gray-deep mb-4 text-lg">Rincian Kategori</h3>
 
-    <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+    <div class="bg-background rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
         @forelse ($incomes as $inc)
             <div class="p-4 border-b border-gray-100 last:border-0 flex items-center justify-between">
                 <div class="flex items-center gap-4">

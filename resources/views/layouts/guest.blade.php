@@ -6,9 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ config('app.name', 'Money Tracker') }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
 </head>
 
-<body class="font-sans antialiased bg-gray-100 text-gray-900">
+<body class="font-sans antialiased bg-background text-gray-deep">
     <div x-data="{ loading: true }" x-init="setTimeout(() => loading = false, 500)"
         class="max-w-md mx-auto min-h-screen relative bg-background shadow-xl">
         <div x-show="loading">

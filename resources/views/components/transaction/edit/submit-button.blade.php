@@ -16,7 +16,7 @@
                 }
             });
         "
-        class="cursor-pointer w-16 bg-white border border-gray-200 text-danger rounded-[20px] flex items-center justify-center shadow-sm hover:bg-gray-50 transition">
+        class="cursor-pointer w-16 bg-white dark:bg-muted border border-gray-soft text-danger rounded-[20px] flex items-center justify-center shadow-sm hover:bg-gray-soft transition">
         <x-ui.icon name="trash" class="w-6 h-6" />
     </button>
     <button type="submit"

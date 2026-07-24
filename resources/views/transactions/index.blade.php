@@ -28,7 +28,7 @@
                 @endphp
                 <x-transaction.group :date="$date" :totalFormatted="$totalFormatted" :group="$group" />
             @empty
-                <div class="text-center py-12 bg-white rounded-2xl border border-gray-200 shadow-sm">
+                <div class="text-center py-12 bg-background rounded-2xl border border-gray-200 shadow-sm">
                     <p class="text-gray-medium text-sm">Tidak ada transaksi pada bulan ini.</p>
                 </div>
             @endforelse
